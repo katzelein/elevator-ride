@@ -1,28 +1,31 @@
 export class Elevator {
   currentFloor: number;
-  maxFloor: number;
+  topFloor: number;
 
-  constructor(maxFloor: number) {
+  constructor(topFloor: number) {
     this.currentFloor = 1;
-    this.maxFloor = maxFloor;
+    this.topFloor = topFloor;
   }
 
   closeDoors = () => {
-    console.log("Closing doors!")
-  }
+    console.log("Closing doors!");
+  };
 
   openDoors = (floorNum: number) => {
-    console.log(`Opening doors on floor ${floorNum}!`)
-  }
+    console.log(`Opening doors on floor ${floorNum}!`);
+  };
 
   passingFloor = (floorNum: number) => {
     console.log(`Now passing floor ${floorNum}`);
-  }
+  };
 
   moveFloors = (newFloor: number) => {
     const currFloor = this.currentFloor;
-    if (newFloor <= 0) {
-      console.error("Invalid request");
+    if (newFloor < 0) {
+      throw new Error("Cannot go below the bottom floor");
+    }
+    if (newFloor > this.topFloor) {
+      throw new Error("Cannot go above the top floor");
     }
     if (currFloor < newFloor) {
       for (let i = currFloor; i <= newFloor; i++) {
