@@ -104,7 +104,8 @@ export class ElevatorSystem {
       } else if (
         this.allElevators[i].currentFloor < closestElevator.currentFloor
       ) {
-        // also needs to confirm elevator is moving in the right direction/ not in maintenance mode
+        // also needs to confirm elevator is moving in the right direction
+        // and not in maintenance mode
         closestElevator = this.allElevators[i];
       }
     }
