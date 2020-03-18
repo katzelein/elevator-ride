@@ -8,7 +8,7 @@ export class Elevator {
     this.currentFloor = 1;
     this.topFloor = topFloor;
     this.trips = 0;
-    this.mode = 'Active'
+    this.mode = "Active";
   }
 
   closeDoors = () => {
@@ -69,11 +69,28 @@ export class Elevator {
   setsChecksTrips = () => {
     this.trips += 1;
     if (this.trips === 100) {
-      this.mode = 'Maintenance'
+      this.mode = "Maintenance";
     }
-  }
+  };
 
   repairsElevator = () => {
     this.trips = 0;
+  };
+}
+
+export class ElevatorSystem {
+  allElevators: Array<Elevator>;
+
+  constructor(allElevators: Array<Elevator>) {
+    this.allElevators = allElevators;
   }
+
+  sendRequestToNearestElevator = (requestedFloor: number) => {
+    // figures out what elevator is closest
+    // const closestElevator = this.findClosestElevator(requestedFloor);
+    // triggers elevator to "moveFloors"
+    // closestElevator.moveFloors(requestedFloor);
+  };
+
+  // findClosestElevator = (requestedFloor: number): Elevator => {};
 }

@@ -1,7 +1,7 @@
-import { Elevator } from "./";
+import { Elevator, ElevatorSystem } from "./";
 
 describe("elevator ride", () => {
-  describe("moveFloors", () => {
+  describe("elevator class", () => {
     let spy;
     beforeEach(() => {
       spy = jest.spyOn(console, "log");
@@ -43,6 +43,20 @@ describe("elevator ride", () => {
       expect(() => elevator.moveFloors(15)).toThrow(
         "Cannot go above the top floor"
       );
+    });
+  });
+  describe("elevatorSystem class", () => {
+    let elevator1 = new Elevator(10);
+    let elevator2 = new Elevator(10);
+    let elevator3 = new Elevator(10);
+    let elevator4 = new Elevator(10);
+    let allElevators = [elevator1, elevator2, elevator3, elevator4];
+    let elevatorSystem = new ElevatorSystem(allElevators);
+    it("should have a list of all the elevators", () => {
+      expect(elevatorSystem.allElevators).toEqual(allElevators);
+    });
+    it("should send the requested floor to the first available elevator", () => {
+      // expect(elevatorSystem.findClosestElevator(4)).toEqual();
     });
   });
 });
