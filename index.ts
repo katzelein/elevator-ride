@@ -7,18 +7,44 @@ export class Elevator {
     this.maxFloor = maxFloor;
   }
 
+  closeDoors = () => {
+    console.log("Closing doors!")
+  }
+
+  openDoors = (floorNum: number) => {
+    console.log(`Opening doors on floor ${floorNum}!`)
+  }
+
+  passingFloor = (floorNum: number) => {
+    console.log(`Now passing floor ${floorNum}`);
+  }
+
   moveFloors = (newFloor: number) => {
     const currFloor = this.currentFloor;
+    if (newFloor <= 0) {
+      console.error("Invalid request");
+    }
     if (currFloor < newFloor) {
       for (let i = currFloor; i <= newFloor; i++) {
         if (i === currFloor) {
-          console.log('Closing doors!')
-        } else if (i > currFloor && i < newFloor ) {
-          console.log(`Now passing floor ${i}`)
+          this.closeDoors();
+        } else if (i > currFloor && i < newFloor) {
+          this.passingFloor(i);
         } else {
-          console.log(`Opening doors on floor ${i}!`)
+          this.openDoors(i);
+        }
+      }
+    } else {
+      for (let i = currFloor; i >= newFloor; i--) {
+        if (i === currFloor) {
+          this.closeDoors();
+        } else if (i < currFloor && i > newFloor) {
+          this.passingFloor(i);
+        } else {
+          this.openDoors(i);
         }
       }
     }
-  }
-};
+    this.currentFloor = newFloor;
+  };
+}
