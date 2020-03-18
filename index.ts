@@ -3,6 +3,7 @@ export class Elevator {
   topFloor: number;
   trips: number;
   mode: string;
+  name: string;
 
   constructor(topFloor: number) {
     this.currentFloor = 1;
@@ -26,25 +27,30 @@ export class Elevator {
   goesUp = (currFloor: number, newFloor: number) => {
     for (let i = currFloor; i <= newFloor; i++) {
       if (i === currFloor) {
+        this.mode = "up";
         this.closeDoors();
       } else if (i > currFloor && i < newFloor) {
         this.passingFloor(i);
         this.currentFloor = i;
       } else {
         this.openDoors(i);
+        this.mode = "stopped";
       }
     }
   };
 
   goesDown = (currFloor: number, newFloor: number) => {
+    this.mode = "down";
     for (let i = currFloor; i >= newFloor; i--) {
       if (i === currFloor) {
+        this.mode = "down";
         this.closeDoors();
       } else if (i < currFloor && i > newFloor) {
         this.passingFloor(i);
         this.currentFloor = i;
       } else {
         this.openDoors(i);
+        this.mode = "stopped";
       }
     }
   };
@@ -69,7 +75,7 @@ export class Elevator {
   setsChecksTrips = () => {
     this.trips += 1;
     if (this.trips === 100) {
-      this.mode = "Maintenance";
+      this.mode = "maintenance";
     }
   };
 
@@ -86,11 +92,22 @@ export class ElevatorSystem {
   }
 
   sendRequestToNearestElevator = (requestedFloor: number) => {
-    // figures out what elevator is closest
-    // const closestElevator = this.findClosestElevator(requestedFloor);
-    // triggers elevator to "moveFloors"
-    // closestElevator.moveFloors(requestedFloor);
+    const closestElevator = this.findClosestElevator(requestedFloor);
+    closestElevator.moveFloors(requestedFloor);
   };
 
-  // findClosestElevator = (requestedFloor: number): Elevator => {};
+  findClosestElevator = (requestedFloor: number): Elevator => {
+    let closestElevator = this.allElevators[0];
+    for (let i = 1; i < this.allElevators.length; i++) {
+      if (!closestElevator) {
+        closestElevator = this.allElevators[i];
+      } else if (
+        this.allElevators[i].currentFloor < closestElevator.currentFloor
+      ) {
+        // also needs to confirm elevator is moving in the right direction/ not in maintenance mode
+        closestElevator = this.allElevators[i];
+      }
+    }
+    return closestElevator;
+  };
 }

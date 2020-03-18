@@ -56,7 +56,7 @@ describe("elevator ride", () => {
       expect(elevatorSystem.allElevators).toEqual(allElevators);
     });
     it("should send the requested floor to the first available elevator", () => {
-      // expect(elevatorSystem.findClosestElevator(4)).toEqual();
+      expect(elevatorSystem.findClosestElevator(4)).toEqual(elevator1);
     });
   });
 });
