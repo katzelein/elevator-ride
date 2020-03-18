@@ -21,6 +21,7 @@ describe("elevator ride", () => {
         ["Opening doors on floor 5!"]
       ]);
       expect(elevator.currentFloor).toEqual(5);
+      expect(elevator.trips).toEqual(1);
     });
     it("should send the elevator to a lower floor", () => {
       elevator.moveFloors(3);
@@ -31,6 +32,7 @@ describe("elevator ride", () => {
         ["Opening doors on floor 3!"]
       ]);
       expect(elevator.currentFloor).toEqual(3);
+      expect(elevator.trips).toEqual(2);
     });
     it("should not send the elevator lower than the bottom floor", () => {
       expect(() => elevator.moveFloors(-1)).toThrow(

@@ -1,10 +1,14 @@
 export class Elevator {
   currentFloor: number;
   topFloor: number;
+  trips: number;
+  mode: string;
 
   constructor(topFloor: number) {
     this.currentFloor = 1;
     this.topFloor = topFloor;
+    this.trips = 0;
+    this.mode = 'Active'
   }
 
   closeDoors = () => {
@@ -19,6 +23,32 @@ export class Elevator {
     console.log(`Now passing floor ${floorNum}`);
   };
 
+  goesUp = (currFloor: number, newFloor: number) => {
+    for (let i = currFloor; i <= newFloor; i++) {
+      if (i === currFloor) {
+        this.closeDoors();
+      } else if (i > currFloor && i < newFloor) {
+        this.passingFloor(i);
+        this.currentFloor = i;
+      } else {
+        this.openDoors(i);
+      }
+    }
+  };
+
+  goesDown = (currFloor: number, newFloor: number) => {
+    for (let i = currFloor; i >= newFloor; i--) {
+      if (i === currFloor) {
+        this.closeDoors();
+      } else if (i < currFloor && i > newFloor) {
+        this.passingFloor(i);
+        this.currentFloor = i;
+      } else {
+        this.openDoors(i);
+      }
+    }
+  };
+
   moveFloors = (newFloor: number) => {
     const currFloor = this.currentFloor;
     if (newFloor < 0) {
@@ -28,26 +58,22 @@ export class Elevator {
       throw new Error("Cannot go above the top floor");
     }
     if (currFloor < newFloor) {
-      for (let i = currFloor; i <= newFloor; i++) {
-        if (i === currFloor) {
-          this.closeDoors();
-        } else if (i > currFloor && i < newFloor) {
-          this.passingFloor(i);
-        } else {
-          this.openDoors(i);
-        }
-      }
+      this.goesUp(currFloor, newFloor);
     } else {
-      for (let i = currFloor; i >= newFloor; i--) {
-        if (i === currFloor) {
-          this.closeDoors();
-        } else if (i < currFloor && i > newFloor) {
-          this.passingFloor(i);
-        } else {
-          this.openDoors(i);
-        }
-      }
+      this.goesDown(currFloor, newFloor);
     }
     this.currentFloor = newFloor;
+    this.setsChecksTrips();
   };
+
+  setsChecksTrips = () => {
+    this.trips += 1;
+    if (this.trips === 100) {
+      this.mode = 'Maintenance'
+    }
+  }
+
+  repairsElevator = () => {
+    this.trips = 0;
+  }
 }
